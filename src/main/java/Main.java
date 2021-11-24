@@ -122,15 +122,16 @@ public class Main {
                 .delayElements(Duration.ofMillis(500))
                 .skip(3)
                 .take(2)
-                .timeout(Duration.ofMillis(2500))
+                .timeout(Duration.ofMillis(2100));//откуда такая цифра?Нужно подождать хобяты 2000 миллисекун(skip 3 = 1500ms + take 2, нужно 500ms чтобы получить первый ивент)
 //                .retry(6) // если таймаут истек раньше, то можно попробывать (retry) еще получить данные (кол-во), на данный момент мы пробуем  1 раз
 //                .onErrorReturn("Too slow") // в subscription вернуть это сообщение
-                .onErrorResume(throwable -> {
-                    return Flux.just("1", "two"); // если ошибка то вернуть эти сообщения
-                });
-//https://youtu.be/77-wOZs2nPE?t=1571
+//                .onErrorResume(throwable -> {
+//                    return Flux.just("1", "two"); // если ошибка то вернуть эти сообщения
+//                });
         stringFlux.subscribe(
-                v -> System.out.println(v)
+                v -> System.out.println("value:"+v),
+                e -> System.out.println("error:"+e),
+                ()-> System.out.println("finish")
         );
         Thread.sleep(5000);
     }
